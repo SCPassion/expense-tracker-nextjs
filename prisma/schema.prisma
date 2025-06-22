@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(uuid())
+  clerkUserId String @unique
+  email String @unique
+  name String? // Optional field for the user's name
+  imageUrl String? // Optional field for the user's profile image URL
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // Relationships between modal user and modal transaction, you only want to see your own transactions
+  // One user can have many transactions, 1 to many relationship
+  transactions Transaction[]
+}
+
+model Transaction {
+  id String @id @default(uuid())
+  text String
+  amount Float
+  // Relation to user
+  userId String
+  // Create a relation to the user model
+  user User @relation(fields:[userId], references:[clerkUserId], onDelete: Cascade)
+}
