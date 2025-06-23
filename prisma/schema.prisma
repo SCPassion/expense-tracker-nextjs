@@ -35,4 +35,6 @@ model Transaction {
   userId String
   // Create a relation to the user model
   user User @relation(fields:[userId], references:[clerkUserId], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  @@index([userId])
 }
