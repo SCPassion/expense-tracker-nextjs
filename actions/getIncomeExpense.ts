@@ -14,13 +14,11 @@ export async function getIncomeExpense(): Promise<{
   }
 
   try {
-    const transactions: Transaction[] = await db.transaction.findMany({
+    const transactions = await db.transaction.findMany({
       where: { userId },
     });
 
-    const amounts = transactions.map(
-      (transaction: Transaction) => transaction.amount
-    );
+    const amounts = transactions.map((transaction) => transaction.amount);
     const income = amounts
       .filter((amount) => amount > 0)
       .reduce((total, amount) => total + amount, 0);

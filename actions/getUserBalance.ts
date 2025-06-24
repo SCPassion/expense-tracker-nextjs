@@ -13,7 +13,7 @@ export async function getUserBalance(): Promise<{
   }
 
   try {
-    const transactions: Transaction[] = await db.transaction.findMany({
+    const transactions = await db.transaction.findMany({
       where: { userId },
     });
 
