@@ -1,5 +1,6 @@
 "use server";
 import db from "@/lib/db";
+import { Transaction } from "@/types/Transaction";
 import { auth } from "@clerk/nextjs/server";
 
 export async function getUserBalance(): Promise<{
@@ -12,7 +13,7 @@ export async function getUserBalance(): Promise<{
   }
 
   try {
-    const transactions = await db.transaction.findMany({
+    const transactions: Transaction[] = await db.transaction.findMany({
       where: { userId },
     });
 
